@@ -197,7 +197,7 @@ def ejemplo_uso():
     gestor = GestorTareas()
     
     # Crear usuario
-    usuario_id = gestor.crear_usuario("Ana García", "ana@email.com")
+    usuario_id = gestor.crear_usuario("Oscar Medina", "oscar@email.com")
     print(f"Usuario creado con ID: {usuario_id}")
     
     if usuario_id:
@@ -215,6 +215,8 @@ def ejemplo_uso():
             "Hacer ejercicio",
             "Ir al gimnasio 3 veces esta semana"
         )
+        print(f"Tarea creada: {tarea2}")
+        
         
         # Agregar etiqueta
         gestor.agregar_etiqueta(tarea1, "programación")
