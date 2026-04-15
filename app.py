@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect
 
 app = Flask(__name__)
 
-# Datos en memoria (simples)
+
 tareas = [
     {"nombre": "Hacer tarea de mate", "hecho": False},
     {"nombre": "Practicar baile", "hecho": False},
@@ -26,6 +26,14 @@ def index():
         return redirect("/")
 
     return render_template("index.html", tareas=tareas)
+
+@app.route('/login')
+def login():
+    return render_template('login.html')
+
+@app.route('/registro')
+def registro():
+    return render_template('registro.html')
 
 if __name__ == "__main__":
     app.run(debug=True)
