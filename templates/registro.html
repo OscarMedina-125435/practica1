@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {% extends "base.html" %}
 
 {% block title %}Registro{% endblock %}
@@ -29,3 +30,39 @@
 <a href="{{ url_for('login') }}">Ya tengo cuenta</a>
 
 {% endblock %}
+=======
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Registro</title>
+</head>
+<body>
+
+    <h1>Crear cuenta</h1>
+
+    {% if mensaje %}
+        <p>{{ mensaje }}</p>
+    {% endif %}
+
+    <form method="POST">
+        <label>Usuario:</label>
+        <input type="text" name="usuario"><br><br>
+
+        <label>Correo:</label>
+        <input type="email" name="correo"><br><br>
+
+        <label>Contraseña:</label>
+        <input type="password" name="password"><br><br>
+
+        <label>Confirmar contraseña:</label>
+        <input type="password" name="confirmar"><br><br>
+
+        <button type="submit">Registrarse</button>
+    </form>
+
+    <a href="{{ url_for('login') }}">Ya tengo cuenta</a>
+
+</body>
+</html>
+>>>>>>> 209e418011b945acab6a3a9cba89eedb0f119e96

@@ -1,8 +1,15 @@
 {% extends "base.html" %}
 
+<<<<<<< HEAD
 {% block title %}Agenda{% endblock %}
 
 {% block content %}
+=======
+
+<button class="btn btn-dark m-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#menu">
+  Menú
+</button>
+>>>>>>> 209e418011b945acab6a3a9cba89eedb0f119e96
 
 <div class="container mt-4">
 
@@ -38,12 +45,18 @@
             <input type="hidden" name="cuadro" value="{{ cuadro_index }}">
             <input type="hidden" name="toggle" value="{{ loop.index0 }}">
 
+<<<<<<< HEAD
             <span>{{ dia.nombre }}</span>
 
             <button class="btn p-0 border-0 bg-transparent">
               <input type="checkbox"
                       {% if dia.hecho %}checked{% endif %}
                       disabled>
+=======
+            <button class="btn p-0 border-0 bg-transparent me-2">
+              <input type="checkbox" class="form-check-input"
+                      {% if tarea.hecho %}checked{% endif %} disabled>
+>>>>>>> 209e418011b945acab6a3a9cba89eedb0f119e96
             </button>
 
 
@@ -62,4 +75,32 @@
 
 </div>
 
+<<<<<<< HEAD
 {% endblock %}
+=======
+<!-- MENÚ LATERAL -->
+<div class="offcanvas offcanvas-start" id="menu">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title">Mi Agenda Escolar</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+  </div>
+
+  <div class="offcanvas-body">
+    <button class="btn btn-outline-danger w-100 mb-2">registrate</button>
+    
+    <a href="{{ url_for('login') }}">
+    <button class="btn btn-outline-danger w-100 mb-2">
+        inicio de sesión
+    </button>
+</a>
+    <button class="btn btn-outline-danger w-100 mb-2">Inicio</button>
+    <button class="btn btn-outline-danger w-100 mb-2">Mis tareas</button>
+    <button class="btn btn-outline-danger w-100 mb-2">Configuración</button>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
+>>>>>>> 209e418011b945acab6a3a9cba89eedb0f119e96
