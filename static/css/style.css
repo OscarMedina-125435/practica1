@@ -1,6 +1,4 @@
-/* ==========================================================================
-   ESTILOS GLOBALES (Modo Oscuro)
-   ========================================================================== */
+
 body { 
     background-color: #000; 
     color: #fff; 
@@ -9,7 +7,7 @@ body {
     padding: 0;
 }
 
-/* Navbar Personalizado */
+
 .navbar {
     background-color: #000 !important;
     border-bottom: 1px solid #333;
@@ -19,11 +17,10 @@ body {
     object-fit: cover;
 }
 
-/* ==========================================================================
-   GESTOR DE TAREAS (index.html)
-   ========================================================================== */
 
-/* Calendario deslizable */
+
+
+
 .nav-scrollable {
     display: flex;
     overflow-x: auto;
@@ -53,7 +50,7 @@ body {
     color: #fff;
 }
 
-/* Círculo de selección del día */
+
 .circulo-sel {
     background-color: #fff; 
     color: #000; 
@@ -67,7 +64,7 @@ body {
     font-weight: bold;
 }
 
-/* Tarjetas de Tareas */
+
 .tarea-card {
     background-color: #1c1c1e; 
     border: 1px solid #2c2c2e; 
@@ -82,15 +79,13 @@ body {
     transform: translateY(-2px);
 }
 
-/* Texto tachado al completar */
+
 .form-check-input:checked ~ .form-check-label {
     text-decoration: line-through;
     color: #666;
 }
 
-/* ==========================================================================
-   LOGIN Y REGISTRO (Forms)
-   ========================================================================== */
+
 .card-auth {
     background-color: #1c1c1e !important;
     border: 1px solid #333 !important;
