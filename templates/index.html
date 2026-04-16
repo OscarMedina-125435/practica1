@@ -1,15 +1,12 @@
 {% extends "base.html" %}
 
-<<<<<<< HEAD
 {% block title %}Agenda{% endblock %}
 
 {% block content %}
-=======
 
 <button class="btn btn-dark m-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#menu">
   Menú
 </button>
->>>>>>> 209e418011b945acab6a3a9cba89eedb0f119e96
 
 <div class="container mt-4">
 
@@ -45,18 +42,15 @@
             <input type="hidden" name="cuadro" value="{{ cuadro_index }}">
             <input type="hidden" name="toggle" value="{{ loop.index0 }}">
 
-<<<<<<< HEAD
             <span>{{ dia.nombre }}</span>
 
             <button class="btn p-0 border-0 bg-transparent">
               <input type="checkbox"
                       {% if dia.hecho %}checked{% endif %}
                       disabled>
-=======
             <button class="btn p-0 border-0 bg-transparent me-2">
               <input type="checkbox" class="form-check-input"
                       {% if tarea.hecho %}checked{% endif %} disabled>
->>>>>>> 209e418011b945acab6a3a9cba89eedb0f119e96
             </button>
 
 
@@ -75,9 +69,7 @@
 
 </div>
 
-<<<<<<< HEAD
 {% endblock %}
-=======
 <!-- MENÚ LATERAL -->
 <div class="offcanvas offcanvas-start" id="menu">
   <div class="offcanvas-header">
@@ -103,4 +95,3 @@
 
 </body>
 </html>
->>>>>>> 209e418011b945acab6a3a9cba89eedb0f119e96

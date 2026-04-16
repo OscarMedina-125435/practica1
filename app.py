@@ -2,18 +2,15 @@ from flask import Flask, render_template, request, redirect
 
 app = Flask(__name__)
 
-<<<<<<< HEAD
 dias_semana = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"]
 
 cuadros = []
-=======
 
 tareas = [
     {"nombre": "Hacer tarea de mate", "hecho": False},
     {"nombre": "Practicar baile", "hecho": False},
     {"nombre": "Estudiar programación", "hecho": False}
 ]
->>>>>>> 209e418011b945acab6a3a9cba89eedb0f119e96
 
 @app.route("/", methods=["GET", "POST"])
 def index():
