@@ -1,58 +1,62 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<title>{% block title %}Agenda{% endblock %}</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Gestor de Tareas{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 
-<!-- BOTÓN PARA ABRIR MENU -->
-<button class="btn btn-dark m-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#menu">
-    ☰ Menú
-</button>
-
-<!-- MENÚ LATERAL -->
-<div class="offcanvas offcanvas-start" tabindex="-1" id="menu">
-    <div class="offcanvas-header">
-    <h5 class="offcanvas-title">Mi Agenda</h5>
-    <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+    <div class="offcanvas offcanvas-start bg-dark text-white" tabindex="-1" id="offcanvasMenu" aria-labelledby="offcanvasLabel">
+        <div class="offcanvas-header border-bottom border-secondary">
+            <h5 class="offcanvas-title" id="offcanvasLabel">Menú</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body p-0">
+            <div class="list-group list-group-flush">
+                <a href="/" class="list-group-item list-group-item-action bg-dark text-white border-secondary py-3">
+                    <i class="bi bi-clipboard-check me-3"></i> Gestor de tareas
+                </a>
+               
+                <a href="/perfil" class="list-group-item list-group-item-action bg-dark text-white border-secondary py-3">
+                    <i class="bi bi-person-circle me-3"></i> Perfil
+                </a>
+            </div>
+        </div>
     </div>
 
-    <div class="offcanvas-body">
+    <nav class="navbar navbar-dark bg-black border-bottom border-secondary">
+      <div class="container-fluid">
+        <div class="d-flex align-items-center">
+          <button class="btn btn-dark border-secondary me-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasMenu">
+            <i class="bi bi-list fs-4"></i>
+          </button>
+          
+          <a class="navbar-brand d-flex align-items-center" href="/">
+         <img src="{{ url_for('static', filename='img/logo.jpg') }}" alt="Logo" width="30" height="30" class="d-inline-block align-text-top me-2 rounded-circle">
+            <span class="fw-bold">Rutina Diaria</span>
+          </a>
+        </div>
 
-    <!-- BOTÓN A TAREAS (INDEX) -->
-    <a href="{{ url_for('index') }}">
-        <button class="btn btn-outline-primary w-100 mb-2">
-     📒 Tareas
-        </button>
-    </a>
+        <div class="d-flex gap-2 ms-auto">
+          <a href="/login" class="btn btn-sm btn-outline-light border-secondary px-3">
+            Iniciar sesión
+          </a>
+          <a href="/register" class="btn btn-sm btn-light fw-bold px-3">
+            Registrarse
+          </a>
+        </div>
+      </div>
+    </nav>
 
-    <!-- LOGIN -->
-    <a href="{{ url_for('login') }}">
-        <button class="btn btn-outline-secondary w-100 mb-2">
-        🗝️ Login
-        </button>
-    </a>
+    {% block content %}{% endblock %}
 
-    <!-- REGISTRO -->
-    <a href="{{ url_for('registro') }}">
-        <button class="btn btn-outline-success w-100 mb-2">
-        🖋️ Registro
-        </button>
-    </a>
-
-    </div>
-</div>
-
-<!-- CONTENIDO DE CADA PÁGINA -->
-<div class="container">
-    {% block content %}
-    {% endblock %}
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

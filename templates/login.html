@@ -1,61 +1,33 @@
 {% extends "base.html" %}
 
-{% block title %}Login{% endblock %}
-
 {% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-4">
+            <div class="card bg-dark text-white border-secondary p-4">
+                <h2 class="text-center mb-4">Iniciar Sesión</h2>
+                
+                <form action="/login" method="POST">
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Correo electrónico</label>
+                        <input type="email" name="email" class="form-control bg-black text-white border-secondary" placeholder="ejemplo@correo.com" required>
+                    </div>
 
-<h1>Inicio de sesión</h1>
+                    <div class="mb-4">
+                        <label class="form-label">Contraseña</label>
+                        <input type="password" name="password" class="form-control bg-black text-white border-secondary" placeholder="••••••••" required>
+                    </div>
 
-{% if error %}
-    <p>{{ error }}</p>
-{% endif %}
+                    <button type="submit" class="btn btn-light w-100 fw-bold">Entrar</button>
+                    
+                </form>
 
-<form method="POST">
-    <label>Usuario:</label>
-    <input type="text" name="usuario">
-
-    <br><br>
-
-    <label>Contraseña:</label>
-    <input type="password" name="password">
-
-    <br><br>
-
-    <button type="submit">iniciar sesion</button>
-</form>
-
-<a href="{{ url_for('registro') }}">Crear cuenta</a>
-
+                <div class="text-center mt-3">
+                    <small class="text-secondary">¿No tienes cuenta? <a href="/register" class="text-white">Regístrate</a></small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Login</title>
-</head>
-<body>
-
-    <h1>Inicio de sesión</h1>
-
-    {% if error %}
-        <p>{{ error }}</p>
-    {% endif %}
-
-    <form method="POST">
-        <label>Usuario:</label>
-        <input type="text" name="usuario">
-
-        <br><br>
-
-        <label>Contraseña:</label>
-        <input type="password" name="password">
-
-        <br><br>
-
-        <button type="submit">iniciar sesion</button>
-    </form>
-
-    <a href="{{ url_for('registro') }}">Crear cuenta</a>
-
-</body>
-</html>

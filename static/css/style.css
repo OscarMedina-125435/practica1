@@ -1,0 +1,119 @@
+/* ==========================================================================
+   ESTILOS GLOBALES (Modo Oscuro)
+   ========================================================================== */
+body { 
+    background-color: #000; 
+    color: #fff; 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Navbar Personalizado */
+.navbar {
+    background-color: #000 !important;
+    border-bottom: 1px solid #333;
+}
+
+.navbar-brand img {
+    object-fit: cover;
+}
+
+/* ==========================================================================
+   GESTOR DE TAREAS (index.html)
+   ========================================================================== */
+
+/* Calendario deslizable */
+.nav-scrollable {
+    display: flex;
+    overflow-x: auto;
+    border-bottom: 1px solid #222;
+    background-color: #000;
+    padding: 10px 0;
+}
+
+.nav-scrollable::-webkit-scrollbar { 
+    display: none; 
+}
+
+.dia-item { 
+    min-width: 70px; 
+    text-decoration: none; 
+    padding: 10px; 
+    text-align: center; 
+    color: #666; 
+    transition: 0.3s;
+}
+
+.dia-item:hover {
+    color: #fff;
+}
+
+.dia-item.active {
+    color: #fff;
+}
+
+/* Círculo de selección del día */
+.circulo-sel {
+    background-color: #fff; 
+    color: #000; 
+    border-radius: 50%;
+    width: 35px; 
+    height: 35px; 
+    display: flex;
+    align-items: center; 
+    justify-content: center;
+    margin: 5px auto 0; 
+    font-weight: bold;
+}
+
+/* Tarjetas de Tareas */
+.tarea-card {
+    background-color: #1c1c1e; 
+    border: 1px solid #2c2c2e; 
+    color: white;
+    border-radius: 14px; 
+    margin-bottom: 12px; 
+    padding: 18px;
+    transition: transform 0.2s;
+}
+
+.tarea-card:hover {
+    transform: translateY(-2px);
+}
+
+/* Texto tachado al completar */
+.form-check-input:checked ~ .form-check-label {
+    text-decoration: line-through;
+    color: #666;
+}
+
+/* ==========================================================================
+   LOGIN Y REGISTRO (Forms)
+   ========================================================================== */
+.card-auth {
+    background-color: #1c1c1e !important;
+    border: 1px solid #333 !important;
+    box-shadow: 0px 10px 30px rgba(0,0,0,0.8);
+}
+
+.input-group-text {
+    background-color: #000 !important;
+    border-color: #333 !important;
+    color: #888 !important;
+}
+
+.form-control {
+    background-color: #000 !important;
+    border-color: #333 !important;
+    color: #fff !important;
+}
+
+.form-control:focus {
+    border-color: #555 !important;
+    box-shadow: none !important;
+}
+
+.form-control::placeholder {
+    color: #444;
+}
