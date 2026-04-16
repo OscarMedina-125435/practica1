@@ -1,64 +1,51 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<title>Agenda</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
+{% extends "base.html" %}
 
-<!-- BOTÓN MENÚ -->
-<button class="btn btn-dark m-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#menu">
-   Menú
-</button>
+{% block title %}Agenda{% endblock %}
+
+{% block content %}
 
 <div class="container mt-4">
 
-  <h2 class="mb-4">📋 Mis cuadros</h2>
+  <h2 class="mb-4"> Gestor de Tareas </h2>
+
 
   <!-- Crear cuadro -->
   <form method="POST" class="input-group mb-4">
-    <input type="text" name="nuevo_cuadro" class="form-control" placeholder="Nombre del cuadro">
+    <input type="text" name="nuevo_cuadro" class="form-control" placeholder="Nombre de la tarea">
     <button class="btn btn-primary">Agregar</button>
   </form>
 
   <div class="d-flex flex-wrap gap-3">
 
     {% for cuadro in cuadros %}
+    {% set cuadro_index = loop.index0 %}
+
     <div class="card" style="width: 18rem;">
 
-      <!-- HEADER -->
-      <div class="card-header">
+      <!-- TITULO -->
+      <div class="card-header text-center fw-bold">
         {{ cuadro.titulo }}
       </div>
 
-      <!-- INPUT -->
-      <div class="p-2">
-        <form method="POST" class="input-group">
-          <input type="hidden" name="cuadro" value="{{ loop.index0 }}">
-          <input type="text" name="nueva_tarea" class="form-control" placeholder="Nueva tarea">
-          <button class="btn btn-success">+</button>
-        </form>
-      </div>
-
-      <!-- LISTA -->
+      <!-- DIAS -->
       <ul class="list-group list-group-flush">
 
-        {% for tarea in cuadro.tareas %}
+        {% for dia in cuadro.dias %}
         <li class="list-group-item">
 
-          <form method="POST" class="d-flex align-items-center">
-            <input type="hidden" name="cuadro" value="{{ loop.parent.index0 }}">
+          <form method="POST" class="d-flex justify-content-between align-items-center">
+
+            <input type="hidden" name="cuadro" value="{{ cuadro_index }}">
             <input type="hidden" name="toggle" value="{{ loop.index0 }}">
 
-            <button class="btn p-0 border-0 bg-transparent me-2">
-              <input type="checkbox" class="form-check-input"
-                     {% if tarea.hecho %}checked{% endif %} disabled>
+            <span>{{ dia.nombre }}</span>
+
+            <button class="btn p-0 border-0 bg-transparent">
+              <input type="checkbox"
+                      {% if dia.hecho %}checked{% endif %}
+                      disabled>
             </button>
 
-            <span class="{% if tarea.hecho %}text-decoration-line-through text-muted{% endif %}">
-              {{ tarea.nombre }}
-            </span>
 
           </form>
 
@@ -68,27 +55,11 @@
       </ul>
 
     </div>
+
     {% endfor %}
 
   </div>
 
 </div>
 
-<!-- MENÚ LATERAL -->
-<div class="offcanvas offcanvas-start" id="menu">
-  <div class="offcanvas-header">
-    <h5 class="offcanvas-title">Mi Agenda Escolar</h5>
-    <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
-  </div>
-
-  <div class="offcanvas-body">
-    <button class="btn btn-outline-danger w-100 mb-2">Inicio</button>
-    <button class="btn btn-outline-danger w-100 mb-2">Mis tareas</button>
-    <button class="btn btn-outline-danger w-100 mb-2">Configuración</button>
-  </div>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
-
-</body>
-</html>
+{% endblock %}
