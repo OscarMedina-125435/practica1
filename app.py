@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for
 
 app = Flask(__name__)
 
-# diccionario de datos en memoria para almacenar tareas por fecha
+
 tareas_memoria = {}
 
 @app.route('/')
@@ -10,7 +10,7 @@ def index():
     dias_calendario = []
     nombres_dias = ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb']
     
-    # Genere días del 12 al 31
+
     
     for i, num in enumerate(range(12, 32)):
         fecha_id = f"2026-04-{num}"
@@ -47,16 +47,16 @@ def login():
         correo = request.form.get('email')
         password = request.form.get('password')
         print(f"Login: {correo}")
-        return redirect(url_for('index')) # te redirige a la funcion index, no a un archivo .html
+        return redirect(url_for('index')) 
     return render_template('login.html')
 
 
-@app.route('/register', methods=['GET', 'POST']) # QUITÉ el .html de la ruta
+@app.route('/register', methods=['GET', 'POST']) 
 def register():
     if request.method == 'POST':
         usuario = request.form.get('username')
         print(f"Registro exitoso: {usuario}")
-        # me equivoque y es : url_for('index'), no 'index.html'
+       
         return redirect(url_for('index')) 
     return render_template('registro.html')
 
