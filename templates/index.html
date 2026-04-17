@@ -20,7 +20,7 @@
                     
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" id="check{{ loop.index }}" 
-                               {% if t.status == 'terminado' %} checked {% endif %} disabled>
+                                {% if t.status == 'terminado' %} checked {% endif %} disabled>
                         <label class="form-check-label text-white" for="check{{ loop.index }}">
                             {{ t.nombre }}
                         </label>
