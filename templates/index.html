@@ -1,97 +1,74 @@
 {% extends "base.html" %}
 
 {% block content %}
-  
 <div class="nav-scrollable">
-        {% for d in dias %}
-        <a href="/?fecha={{ d.id }}" class="dia-item">
-            <div style="font-size: 0.75rem; text-transform: lowercase;">{{ d.nombre }}</div>
-            <div class="{{ 'circulo-sel' if seleccionado == d.id else 'text-white pt-2' }}">
-                {{ d.numero }}
+    {% for d in dias %}
+    <a href="/?fecha={{ d.id }}" class="dia-item text-decoration-none">
+        <div style="font-size: 0.75rem; text-transform: lowercase;">{{ d.nombre }}</div>
+        <div class="{{ 'circulo-sel' if seleccionado == d.id else 'text-white pt-2' }}">
+            {{ d.numero }}
+        </div>
+    </a>
+    {% endfor %}
+</div>
+
+<div class="container mt-4">
+    <div class="lista-tareas">
+        {% for t in tareas %}
+            <div class="tarea-card shadow-sm mb-3 p-3" style="background-color: #1c1c1e; border-radius: 12px;">
+                <div class="d-flex justify-content-between align-items-center">
+                    
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="check{{ loop.index }}" 
+                               {% if t.status == 'terminado' %} checked {% endif %} disabled>
+                        <label class="form-check-label text-white" for="check{{ loop.index }}">
+                            {{ t.nombre }}
+                        </label>
+                    </div>
+
+                    <div class="d-flex align-items-center gap-2">
+                        <form action="/update_status/{{ seleccionado }}/{{ loop.index0 }}" method="POST" class="d-flex gap-1">
+                            <select name="nuevo_estado" class="form-select form-select-sm bg-dark text-white border-secondary" style="width: auto;">
+                                <option value="pendiente" {% if t.status == 'pendiente' %} selected {% endif %}>⏳</option>
+                                <option value="en proceso" {% if t.status == 'en proceso' %} selected {% endif %}>🚧</option>
+                                <option value="terminado" {% if t.status == 'terminado' %} selected {% endif %}>✅</option>
+                            </select>
+                            <button type="submit" class="btn btn-sm btn-secondary" title="Actualizar estado">Ok</button>
+                        </form>
+
+                        <a href="/delete/{{ seleccionado }}/{{ loop.index0 }}" class="btn btn-sm btn-outline-danger">
+                            <i class="bi bi-trash"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="mt-2">
+                    {% if t.status == 'pendiente' %}
+                        <span class="badge rounded-pill bg-secondary">Pendiente</span>
+                    {% elif t.status == 'en proceso' %}
+                        <span class="badge rounded-pill bg-primary">En proceso</span>
+                    {% elif t.status == 'terminado' %}
+                        <span class="badge rounded-pill bg-success">Terminado</span>
+                    {% endif %}
+                </div>
             </div>
-        </a>
+        {% else %}
+            <div class="text-center py-5">
+                <p class="text-secondary mb-0">Nada planeado para hoy.</p>
+                <small class="text-muted">Usa el formulario de abajo para añadir una tarea.</small>
+            </div>
         {% endfor %}
     </div>
 
-    <div class="container mt-4">
-        <div class="lista-tareas">
-            {% for t in tareas %}
-                <div class="tarea-card shadow-sm mb-3 p-3" style="background-color: #1c1c1e; border-radius: 12px;">
-                    <div class="d-flex justify-content-between align-items-center">
-                        
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="check{{ loop.index }}" 
-                                   {% if t.status == 'terminado' %} checked {% endif %} disabled>
-                            <label class="form-check-label text-white" for="check{{ loop.index }}">
-                                {{ t.nombre }}
-                            </label>
-                        </div>
-
-                        <div class="d-flex align-items-center gap-2">
-                            <form action="/update_status/{{ seleccionado }}/{{ loop.index0 }}" method="POST">
-                                <select name="nuevo_estado" onchange="this.form.submit()" class="form-select form-select-sm bg-dark text-white border-secondary" style="width: auto;">
-                                    <option value="pendiente" {% if t.status == 'pendiente' %} selected {% endif %}>⏳</option>
-                                    <option value="en proceso" {% if t.status == 'en proceso' %} selected {% endif %}>🚧</option>
-                                    <option value="terminado" {% if t.status == 'terminado' %} selected {% endif %}>✅</option>
-                                </select>
-                            </form>
-
-
-
-                            <a href="/delete/{{ seleccionado }}/{{ loop.index0 }}" class="btn btn-sm btn-outline-danger" onclick="return confirm('¿Borrar tarea?')">
-                                <i class="bi bi-trash"></i>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="mt-2">
-                        {% if t.status == 'pendiente' %}
-                            <span class="badge rounded-pill bg-secondary">Pendiente</span>
-                        {% elif t.status == 'en proceso' %}
-                            <span class="badge rounded-pill bg-primary">En proceso</span>
-                        {% elif t.status == 'terminado' %}
-                            <span class="badge rounded-pill bg-success">Terminado</span>
-                        {% endif %}
-                    </div>
-
-                    <div class="modal fade" id="editModal{{ loop.index }}" tabindex="-1" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered">
-                            <div class="modal-content bg-dark border-secondary">
-                                <form action="/edit/{{ seleccionado }}/{{ loop.index0 }}" method="POST">
-                                    <div class="modal-header border-secondary">
-                                        <h5 class="modal-title text-white">Editar Tarea</h5>
-                                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <input type="text" name="nuevo_nombre" class="form-control bg-dark text-white border-secondary" value="{{ t.nombre }}" required>
-                                    </div>
-                                    <div class="modal-footer border-0">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                        <button type="submit" class="btn btn-primary">Guardar</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                {% else %}
-                <div class="text-center py-5">
-                    <p class="text-secondary mb-0">Nada planeado para hoy.</p>
-                    <small class="text-muted">Toca el botón + para empezar.</small>
-                </div>
-            {% endfor %}
+    <form action="/add" method="POST" class="mt-4 pb-5">
+        <input type="hidden" name="fecha" value="{{ seleccionado }}">
+        <div class="input-group">
+            <input type="text" name="tarea" 
+                   class="form-control bg-dark text-white border-secondary" 
+                   placeholder="¿Qué tienes planeado?" 
+                   required>
+            <button class="btn btn-light fw-bold" type="submit">+</button>
         </div>
-
-        <form action="/add" method="POST" class="mt-4 pb-5">
-            <input type="hidden" name="fecha" value="{{ seleccionado }}">
-            
-            <div class="input-group">
-                <input type="text" name="tarea" 
-                       class="form-control bg-dark text-white border-secondary" 
-                       placeholder="¿Qué tienes planeado?" 
-                       required>
-                <button class="btn btn-light fw-bold" type="submit">+</button>
-            </div>
-        </form>
-    </div>
+    </form>
+</div>
 {% endblock %}
