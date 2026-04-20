@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for
-
+import gestortareas
 app = Flask(__name__)
 
 
@@ -43,6 +43,11 @@ def add():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    gestor = gestortareas()
+    if gestor:
+        gestor.obtener_usuario2("hola@gmail.com","123")
+        return render_template('errorConeccion.html')
+    
     if request.method == 'POST':
         correo = request.form.get('email')
         password = request.form.get('password')
@@ -56,7 +61,7 @@ def register():
     if request.method == 'POST':
         usuario = request.form.get('username')
         print(f"Registro exitoso: {usuario}")
-       
+        
         return redirect(url_for('index')) 
     return render_template('registro.html')
 

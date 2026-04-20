@@ -43,12 +43,11 @@ class GestorTareas:
             print(f"❌ Error: El email {email} ya está registrado")
             return None
     
-    def obtener_usuario(self, email: str, password: str) -> Optional[Dict]:
+    def obtener_usuario2(self, usuario_id: str) -> Optional[Dict]:
         """Obtener usuario por ID"""
         try:
-            correo = self.usuarios.find_one({"email": ObjectId(email)})
-            if correo:
-                
+            usuario = self.usuarios.find_one({"_id": ObjectId(usuario_id)})
+            if usuario:
                 usuario['_id'] = str(usuario['_id'])
             return usuario
         except Exception as e:
@@ -90,3 +89,104 @@ class GestorTareas:
             t['usuario_id'] = str(t['usuario_id'])
             resultado.append(t)
         return resultado
+    
+    def actualizar_estado_tarea(self, tarea_id: str, nuevo_estado: str) -> bool:
+        """Actualizar el estado de una tarea"""
+        estados_validos = ["pendiente", "en_progreso", "completada", "cancelada"]
+        if nuevo_estado not in estados_validos:
+            print(f"❌ Error: Estado '{nuevo_estado}' no válido")
+            return False
+        
+        resultado = self.tareas.update_one(
+            {"_id": ObjectId(tarea_id)},
+            {
+                "$set": {
+                    "estado": nuevo_estado,
+                    "completada": nuevo_estado == "completada",
+                    "fecha_actualizacion": datetime.now()
+                }
+            }
+        )
+        return resultado.modified_count > 0
+    
+    def agregar_etiqueta(self, tarea_id: str, etiqueta: str) -> bool:
+        """Agregar etiqueta a una tarea"""
+        resultado = self.tareas.update_one(
+            {"_id": ObjectId(tarea_id)},
+            {"$addToSet": {"etiquetas": etiqueta}}
+        )
+        return resultado.modified_count > 0
+    
+    def eliminar_tarea(self, tarea_id: str) -> bool:
+        """Eliminar una tarea"""
+        resultado = self.tareas.delete_one({"_id": ObjectId(tarea_id)})
+        return resultado.deleted_count > 0
+    
+    def estadisticas_usuario(self, usuario_id: str) -> Dict:
+        """Obtener estadísticas de tareas de un usuario"""
+        pipeline = [
+            {"$match": {"usuario_id": ObjectId(usuario_id)}},
+            {"$group": {
+                "_id": "$estado",
+                "cantidad": {"$sum": 1},
+                "fecha_ultima": {"$max": "$fecha_creacion"}
+            }},
+            {"$sort": {"_id": 1}}
+        ]
+        
+        resultados = list(self.tareas.aggregate(pipeline))
+        
+        # Formatear resultados
+        estadisticas = {
+            "total": 0,
+            "por_estado": {},
+            "ultima_actividad": None
+        }
+        
+        for r in resultados:
+            estado = r['_id']
+            cantidad = r['cantidad']
+            estadisticas["por_estado"][estado] = cantidad
+            estadisticas["total"] += cantidad
+            
+            if not estadisticas["ultima_actividad"] or r['fecha_ultima'] > estadisticas["ultima_actividad"]:
+                estadisticas["ultima_actividad"] = r['fecha_ultima']
+        
+        return estadisticas
+    
+    def buscar_tareas(self, texto: str) -> List[Dict]:
+        """Buscar tareas por texto en título o descripción"""
+        # Requiere índice de texto en 'titulo' y 'descripcion'
+        tareas = self.tareas.find({
+            "$text": {"$search": texto}
+        }).sort({"score": {"$meta": "textScore"}})
+        
+        resultado = []
+        for t in tareas:
+            t['_id'] = str(t['_id'])
+            t['usuario_id'] = str(t['usuario_id'])
+            resultado.append(t)
+        return resultado
+    
+    def tareas_urgentes(self, horas: int = 24) -> List[Dict]:
+        """Encontrar tareas que vencen en las próximas N horas"""
+        ahora = datetime.now()
+        limite = ahora + timedelta(hours=horas)
+        
+        tareas = self.tareas.find({
+            "estado": {"$ne": "completada"},
+            "fecha_limite": {"$gte": ahora, "$lte": limite}
+        }).sort("fecha_limite", 1)
+        
+        resultado = []
+        for t in tareas:
+            t['_id'] = str(t['_id'])
+            t['usuario_id'] = str(t['usuario_id'])
+            resultado.append(t)
+        return resultado
+    
+    def cerrar_conexion(self):
+        """Cerrar conexión a MongoDB"""
+        if self.cliente:
+            self.cliente.close()
+            print("🔌 Conexión cerrada")
