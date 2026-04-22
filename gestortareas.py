@@ -43,7 +43,7 @@ class GestorTareas:
             print(f"❌ Error: El email {email} ya está registrado")
             return None
     
-    def obtener_usuario2(self, usuario_id: str) -> Optional[Dict]:
+    def obtener_usuario(self, usuario_id: str) -> Optional[Dict]:
         """Obtener usuario por ID"""
         try:
             usuario = self.usuarios.find_one({"_id": ObjectId(usuario_id)})
@@ -53,7 +53,17 @@ class GestorTareas:
         except Exception as e:
             print(f"Error al obtener usuario: {e}")
             return None
-    
+        
+    def obtener_usuario2(self, usuario_id: str, pass1: str) -> Optional[Dict]:
+        try:
+            usuario = self.usuarios.find_one({"email": ObjectId(email)})
+            if correo:
+                usuario['_id'] = str(usuario['_id'])
+            return usuario
+        except Exception as e:
+            print(f"Error al obtener usuario: {e}")
+            return None
+        
     def crear_tarea(self, usuario_id: str, titulo: str, descripcion: str = "", 
                 fecha_limite: Optional[datetime] = None) -> Optional[str]:
         """Crear una nueva tarea para un usuario"""
