@@ -19,23 +19,36 @@
 <body class="bg-black text-white">
 
     <nav class="navbar navbar-expand navbar-dark bg-black border-bottom border-secondary fixed-top">
-        <div class="container-fluid">
-            <a class="navbar-brand d-flex align-items-center" href="/">
-                <img src="{{ url_for('static', filename='img/logo.jpg') }}" alt="Logo" width="30" height="30" class="d-inline-block align-text-top me-2 rounded-circle">
-                <span class="fw-bold">Rutina Diaria</span>
+    <div class="container-fluid">
+        <a class="navbar-brand d-flex align-items-center" href="/">
+            <img src="{{ url_for('static', filename='img/logo.jpg') }}" alt="Logo" width="30" height="30" class="d-inline-block align-text-top me-2 rounded-circle">
+            <span class="fw-bold">Rutina Diaria</span>
         </a>
 
-        <div class="navbar-nav me-auto">
+        <div class="navbar-nav me-auto align-items-center">
             <a class="nav-link" href="/"><i class="bi bi-clipboard-check"></i></a>
-            <a class="nav-link" href="/perfil"><i class="bi bi-person-circle"></i></a>
+            
+            {% if session.get('user_id') %}
+                <span class="nav-link text-secondary small me-3">
+                    <i class="bi bi-person me-1"></i>{{ session.get('nombre') }}
+                </span>
+                
+                <a class="nav-link text-danger" href="{{ url_for('logout') }}" title="Cerrar Sesión">
+                    <i class="bi bi-box-arrow-right"></i>
+                </a>
+            {% endif %}
         </div>
 
         <div class="d-flex gap-2">
-            <a href="/login" class="btn btn-sm btn-outline-light border-secondary px-3">Log in</a>
-            <a href="/register" class="btn btn-sm btn-light fw-bold px-3">Sign up</a>
+            {% if not session.get('user_id') %}
+                <a href="/login" class="btn btn-sm btn-outline-light border-secondary px-3">Log in</a>
+                <a href="/register" class="btn btn-sm btn-light fw-bold px-3">Sign up</a>
+            {% else %}
+                <a href="/perfil" class="btn btn-sm btn-outline-secondary text-white border-secondary px-3">Mi Perfil</a>
+            {% endif %}
         </div>
     </div>
-    </nav>
+</nav>
 
     {% block content %}{% endblock %}
 

@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
-import gestortareas  
+import gestortareas 
 
 app = Flask(__name__)
 
@@ -58,7 +58,7 @@ def login():
         user_data = gestor_obj.obtener_usuario_por_email(e)
         
         if user_data and user_data['secreto'] == s:
-            # Iniciamos sesión
+            
             session['user_id'] = str(user_data['_id'])
             session['nombre'] = user_data['user']
             return redirect(url_for('index'))
