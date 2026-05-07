@@ -16,7 +16,7 @@ def index():
     if 'user_id' not in session:
         return redirect(url_for('login'))
 
-  
+
     dias_calendario = []
     nombres_dias = ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb']
     for i, num in enumerate(range(12, 32)):

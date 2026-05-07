@@ -11,12 +11,10 @@ class GestorTareas:
             self.cliente = MongoClient(uri, serverSelectionTimeoutMS=5000)
             self.cliente.admin.command('ping')
             
-            # Mantenemos el nombre de la base de datos original para la sesión
             self.db = self.cliente['24308060610016']
             self.usuarios = self.db['usuarios']
             self.tareas = self.db['tareas']
             
-            # Crear índices necesarios
             self._crear_indices()
             print("✅ Conectado a MongoDB - BD: 24308060610016")
         except ConnectionFailure:
@@ -29,7 +27,7 @@ class GestorTareas:
         self.tareas.create_index([("usuario_id", 1), ("fecha_creacion", -1)])
         self.tareas.create_index("estado")
 
-    # --- MÉTODOS DE SESIÓN (SIN CAMBIOS EN LÓGICA) ---
+
     def crear_usuario(self, user, email, secreto):
         """Crear usuario respetando los campos originales: user, email, secreto"""
         try:
@@ -58,7 +56,6 @@ class GestorTareas:
         except Exception:
             return None
 
-    # --- MÉTODOS DE TAREAS ---
     def crear_tarea(self, usuario_id: str, titulo: str, fecha_calendario: str, descripcion: str = "") -> Optional[str]:
         """Crear tarea vinculada a usuario_id y a la fecha_display del calendario"""
         if not self.obtener_usuario(usuario_id):
@@ -69,7 +66,7 @@ class GestorTareas:
             "usuario_id": ObjectId(usuario_id),
             "titulo": titulo,
             "descripcion": descripcion,
-            "fecha_display": fecha_calendario, # Campo clave para el filtro por día
+            "fecha_display": fecha_calendario,
             "estado": "pendiente",
             "fecha_creacion": datetime.now(),
             "fecha_limite": datetime.now() + timedelta(days=7),
